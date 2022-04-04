@@ -3,6 +3,8 @@ import math
 import pygame
 from pygame.draw import *
 
+gray = (220, 220, 220)
+white = (255, 255, 255)
 
 def draw_ellipse_angle(surface, color, rect, angle, width=0):
     target_rect = pygame.Rect(rect)
@@ -12,7 +14,7 @@ def draw_ellipse_angle(surface, color, rect, angle, width=0):
     surface.blit(rotated_surf, rotated_surf.get_rect(center=target_rect.center))
 
 
-def draw_iglu(x, y, scale):
+def draw_iglu(x, y, scale, screen):
     x *= scale
     y *= scale
     circle(screen, gray, (x + 300 * scale, y + 500 * scale), 150 * scale, draw_top_left=True, draw_top_right=True)
@@ -31,7 +33,7 @@ def draw_iglu(x, y, scale):
     line(screen, (0, 0, 0), (x + 150 * scale, y + 500 * scale), (x + 450 * scale, y + 500 * scale))
 
 
-def draw_cat(x, y, scale):
+def draw_cat(x, y, scale, screen):
     x *= scale
     y *= scale
     ellipse(screen, gray, (x + 200 * scale, y + 600 * scale, 200 * scale, 50 * scale))
@@ -64,7 +66,7 @@ def draw_cat(x, y, scale):
     circle(screen, (0, 0, 0), (x + 192 * scale, y + 600 * scale), 2 * scale)
 
 
-def draw_chukcha(x, y, scale):
+def draw_chukcha(x, y, scale, screen):
     x *= scale
     y *= scale
     brown = (165, 126, 103)
@@ -87,41 +89,28 @@ def draw_chukcha(x, y, scale):
     line(screen, 'black', (x + 480 * scale, y + 450 * scale), (x + 490 * scale, y + 650 * scale))
 
 
-pygame.init()
+def chukcha2():
+    screen = pygame.display.set_mode((800, 800))
+    screen.fill((206, 206, 206))
 
-FPS = 30
-screen = pygame.display.set_mode((800, 800))
-screen.fill((206, 206, 206))
+    # ground
+    white = (255, 255, 255)
+    rect(screen, white, (0, 400, 800, 800))
 
-# ground
-white = (255, 255, 255)
-rect(screen, white, (0, 400, 800, 800))
+    # iglu
+    gray = (220, 220, 220)
+    draw_iglu(400, 200, 0.7, screen)
+    draw_iglu(0, 0, 1, screen)
+    draw_iglu(100, 550, 0.5, screen)
+    draw_iglu(300, 600, 0.5, screen)
 
-# iglu
-gray = (220, 220, 220)
-draw_iglu(400, 200, 0.7)
-draw_iglu(0, 0, 1)
-draw_iglu(100, 550, 0.5)
-draw_iglu(300, 600, 0.5)
+    draw_chukcha(700, 300, 0.5, screen)
+    draw_chukcha(650, 350, 0.5, screen)
+    draw_chukcha(450, 400, 0.5, screen)
+    draw_chukcha(0, 0, 1, screen)
+
+    draw_cat(-50, 0, 1, screen)
+    draw_cat(50, 100, 1, screen)
+    draw_cat(-80, 400, 0.5, screen)
 
 
-draw_chukcha(700, 300, 0.5)
-draw_chukcha(650, 350, 0.5)
-draw_chukcha(450, 400, 0.5)
-draw_chukcha(0, 0, 1)
-
-draw_cat(-50, 0, 1)
-draw_cat(50, 100, 1)
-draw_cat(-80, 400, 0.5)
-
-pygame.display.update()
-clock = pygame.time.Clock()
-finished = False
-
-while not finished:
-    clock.tick(FPS)
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            finished = True
-
-pygame.quit()
